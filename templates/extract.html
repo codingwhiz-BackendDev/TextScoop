@@ -92,6 +92,9 @@
                         {% if image.extracted_text %}
                         <div style="margin-top: 1rem; font-size: 0.9rem;" class="status-success">
                             ✓ Text extracted successfully
+                            <br>
+                            <br>
+                            <a class="status-success" href="{% url 'view_file' image.id %}">view here</a>
                         </div>
                         {% else %}
                         <div style="margin-top: 1rem; font-size: 0.9rem;" class="status-error">

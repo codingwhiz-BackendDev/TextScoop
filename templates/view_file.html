@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View File - TextScoop</title>
+    <link rel="stylesheet" href="{% static 'view_file.css' %}">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">TextScoop</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/extract">Extract Text</a></li>
+                <li><a href="javascript:history.back()" class="back-btn">← Back</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-container">
+            <!-- Image Section -->
+            <div class="image-section">
+                <div class="image-card">
+                    <img src="{{ image_text.image.url }}" alt="Uploaded image" class="image-preview">
+                    <div class="image-info">
+                        <div class="info-item">
+                            <div class="info-icon">📄</div>
+                            <span class="info-label">Filename:</span>
+                            <span class="info-value">{{ image_text.filename }}</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📅</div>
+                            <span class="info-label">Uploaded:</span>
+                            <span class="info-value">{{ image_text.uploaded_at|date:"F j, Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🕐</div>
+                            <span class="info-label">Time:</span>
+                            <span class="info-value">{{ image_text.uploaded_at|time:"g:i A" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🔤</div>
+                            <span class="info-label">Text Length:</span>
+                            <span class="info-value">{{ image_text.extracted_text|length }} characters</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Section -->
+            <div class="text-section">
+                <div class="text-card">
+                    <div class="text-header">
+                        <h2 class="text-title">
+                            <span>📝</span>
+                            Extracted Text
+                        </h2>
+                        {% if image_text.extracted_text %}
+                        <button class="copy-btn" onclick="copyText()">
+                            <span>📋</span>
+                            Copy Text
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    {% if image_text.extracted_text %}
+                    <div class="extracted-text" id="extractedText">{{ image_text.extracted_text }}</div>
+                    {% else %}
+                    <div class="extracted-text no-text">
+                        <p>No text was extracted from this image.</p>
+                        <p>This could be due to:</p>
+                        <ul style="list-style: none; margin-top: 1rem;">
+                            <li>• Image quality is too low</li>
+                            <li>• No readable text in the image</li>
+                            <li>• Text is in an unsupported format</li>
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="action-buttons">
+                        <a href="/extract" class="btn btn-primary">
+                            <span>🔄</span>
+                            Extract Another
+                        </a>
+                        {% if image_text.extracted_text %}
+                        <button class="btn btn-secondary" onclick="downloadText()">
+                            <span>💾</span>
+                            Download Text
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'view_file.js' %}"></script>
+</body>
+
+</html>

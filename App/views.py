@@ -77,3 +77,8 @@ def delete_image(request, image_id):
         messages.error(request, "Image not found")
     
     return redirect('extract')
+
+def view_file(request, image_id):
+    image_text =  ImageText.objects.get(id=image_id)
+    print(image_text.extracted_text) 
+    return render(request, 'view_file.html', {'image_text':image_text})
